@@ -13,6 +13,24 @@ import isNumber from "./isNumber";
  *   operation:String  +, -, etc.
  */
 export default function calculate(obj, buttonName) {
+  if(buttonName === "D"){
+    if(obj.toggle === null){
+      return{
+        toggle:"1",
+      }
+    }
+    if(obj.toggle === "0"){
+      return{
+        toggle:"1",
+      }
+    }
+    else 
+    return{
+      toggle:"0",
+    }
+    }
+
+
   if (buttonName === "AC") {
     return {
       total: null,
@@ -48,7 +66,7 @@ export default function calculate(obj, buttonName) {
 
   if (buttonName === "%") {
     if (obj.operation && obj.next) {
-      const result = operate(obj.total, obj.next, obj.operation);
+      const result = operate(obj.total, obj.next, obj.operation, obj.toggle);
       return {
         total: Big(result)
           .div(Big("100"))
@@ -81,7 +99,7 @@ export default function calculate(obj, buttonName) {
   if (buttonName === "=") {
     if (obj.next && obj.operation) {
       return {
-        total: operate(obj.total, obj.next, obj.operation),
+        total: operate(obj.total, obj.next, obj.operation, obj.toggle),
         next: null,
         operation: null,
       };
@@ -112,7 +130,7 @@ export default function calculate(obj, buttonName) {
   // User pressed an operation button and there is an existing operation
   if (obj.operation) {
     return {
-      total: operate(obj.total, obj.next, obj.operation),
+      total: operate(obj.total, obj.next, obj.operation, obj.toggle),
       next: null,
       operation: buttonName,
     };
