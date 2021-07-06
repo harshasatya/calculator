@@ -1,6 +1,16 @@
 import Big from "big.js";
 
-export default function operate(numberOne, numberTwo, operation) {
+Date.prototype.addDays = function (days) {
+  const date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+};
+
+
+export default function operate(numberOne, numberTwo, operation, toggle) {
+
+
+  if(toggle === "0" || toggle === null){ 
   const one = Big(numberOne || "0");
   const two = Big(numberTwo || (operation === "÷" || operation === 'x' ? "1": "0")); //If dividing or multiplying, then 1 maintains current value in cases of null
   if (operation === "+") {
@@ -29,3 +39,32 @@ export default function operate(numberOne, numberTwo, operation) {
   }
   throw Error(`Unknown operation '${operation}'`);
 }
+else{
+  if(operation === "+"){
+    if(numberOne.length === 7){
+      numberOne = "0"+numberOne;
+    }
+    var m1 = parseInt(numberOne.slice(0,2))-1;
+    var d1 = parseInt(numberOne.slice(2,4));
+    var y1 = parseInt(numberOne.slice(4,8));
+    const d = new Date(Date.UTC(y1,m1,d1));
+    const two = parseInt(numberTwo)+1;
+    const d2 =  d.addDays(two);
+    return d2.getFullYear()+'-'+(d2.getMonth()+1)+'-'+d2.getDate();;
+  }
+  if(operation === "-"){
+    if(numberOne.length === 7){
+      numberOne = "0"+numberOne;
+    }
+    var m1 = parseInt(numberOne.slice(0,2))-1;
+    var d1 = parseInt(numberOne.slice(2,4));
+    var y1 = parseInt(numberOne.slice(4,8));
+    const d = new Date(Date.UTC(y1,m1,d1));
+    const two = parseInt(numberTwo)-1;
+    const d2 =  d.addDays(two*-1);
+    return d2.getFullYear()+'-'+(d2.getMonth()+1)+'-'+d2.getDate();;
+  }
+}
+
+}
+
